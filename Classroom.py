@@ -7,22 +7,33 @@ class Classroom(object):
         """Initialize new classroom."""
         # name is a string
         self.name = name
-        # meet_times is an array of tuples
+        # meet_times is an array of tuples of day strings and time strings
         self.meet_times = meet_times
-        # roster is a dictionary of student objects
+        # roster is a dictionary of name strings and student objects
         self.roster = roster
-        # assignments is an array of assignments
+        # assignments is a dictionary of assignments and max possible scores
         self.assignments = {}
 
     def add_student(self, student_name):
-        """Adds new student."""
-        self.roster[student_name] = Student(student_name)
-        for assignment in self.assignments:
-            self.roster[student_name].scores[assignment_name] = -1
-        print("Added " + student_name + " to " + self.name + " roster.")
+        """
+        student_name is a string
+        Adds student_name to roster dictionary and initiates student object
+        """
+        if student_name in self.roster:
+            print(student_name + " is already on the roster. Please modify "
+                  "this name (include middle name or nickname).")
+            return False
+        else:
+            self.roster[student_name] = Student(student_name)
+            for assignment in self.assignments:
+                self.roster[student_name].scores[assignment_name] = -1
+            print("Added " + student_name + " to " + self.name + " roster.")
 
     def remove_student(self, student_name):
-        """Removes a student based on input name."""
+        """
+        student_name is a string
+        Removes a student_name if it is in class roster
+        """
         if student_name in self.roster:
             del self.roster[student_name]
             print("Removed " + student_name + " from " +
@@ -31,7 +42,11 @@ class Classroom(object):
             print("Could not find student " + student_name + ".")
 
     def add_assignment(self, assignment_name, assignment_score):
-        """Adds an assignment."""
+        """
+        assignment_name is a string
+        assignment_score is a float
+        Adds an assignment and its max score to assignment dictionary
+        """
         if assignment_name in self.assignments:
             print("There is already an assignment named " + assignment_name)
             return
@@ -42,7 +57,10 @@ class Classroom(object):
               self.name + " assignments.")
 
     def grade_assignment(self, assignment_name):
-        """Grades an assignment for the whole roster."""
+        """
+        assignment_name = string
+        Grades an assignment for each student in the roster
+        """
         if assignment_name in self.assignments:
             for student in self.roster:
                 print("What score did " + student + " get?")
@@ -52,7 +70,11 @@ class Classroom(object):
             print("Could not find " + assignment_name + ".")
 
     def grade_individual_assignment(self, student_name, assignment_name):
-        """Grades an assignment for a student."""
+        """
+        student_name is a string
+        assignment_name is a string
+        Grades an assignment for a student
+        """
         if assignment_name in self.assignments:
             if student_name in self.roster:
                 print("What score did " + student_name + " get?")
@@ -66,10 +88,18 @@ class Classroom(object):
             print("Could not find " + assignment_name + ".")
 
     def remove_assignment(self, assignment_name):
-        """Removes an assignment and all student scores."""
-        del self.assignments[assignment_name]
-        print("Removed " + assignment_name + " from " +
-              self.name + " assignments.")
+        """
+        assignment_name is a string
+        Removes an assignment and all student scores for that assignment
+        """
+        if assignment_name in self.assignments:
+            del self.assignments[assignment_name]
+            for student in self.roster:
+                del self.roster[student].scores[assignment_name]
+            print("Removed " + assignment_name + " from " +
+                  self.name + " assignments.")
+        else:
+            print(assignment_name + " not found.")
 
     def return_student_grade(self, student_name):
         """Returns student's grade in class."""
@@ -97,12 +127,12 @@ class Classroom(object):
             print(meet_day + " at " + meet_time)
 
     def return_roster(self):
-        """Returns class roster."""
+        """Returns class roster with each student on new line."""
         for student in self.roster:
             print(student)
 
     def return_assignments(self):
-        """Returns list of assignments."""
+        """Formats assignments dictionary and returns list of assignments."""
         for assignment in self.assignments:
             print(assignment + " has a possible score of: " +
                   str(self.assignments[assignment]))

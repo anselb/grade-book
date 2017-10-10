@@ -24,6 +24,12 @@ def valid_response(response):
 #             okay = False
 #     okay = True
 #     response = ""
+"""
+For each of the three function groups, it will print a list of prompts for what
+the user can do while the input in not equal to a prompt option. After
+inputting a valid option, the coresponding class methods and their prompt(s)
+for input will be called.
+"""
 
 
 def roster_functions(class_name):
@@ -57,7 +63,7 @@ def assignment_functions(class_name):
     if action == "create":
         print("What is the assignment name?")
         assignment_name = input()
-        print("What is the assignment score?")
+        print("What is the max possible assignment score?")
         assignment_score = int(input())
         class_name.add_assignment(assignment_name, assignment_score)
     if action == "delete":
@@ -131,27 +137,3 @@ def grade_book():
 
 
 grade_book()
-
-"""
-Create a new class
-    name class
-    set meet_times
-    add students to roster
-
-In class
-    add / remove students
-    check student GPA
-    create / remove new assignments
-    return name
-    return class times
-    return roster
-    return list of assignments
-    return grades for specific assignment
-
-class
-    has assignments
-    has assignment point value
-student
-    has assignment scores in array
-
-"""
