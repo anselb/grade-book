@@ -1,5 +1,5 @@
-from Classroom import *
-from Student import *
+from classroom import Classroom
+from student import Student
 
 
 def valid_response(response):
