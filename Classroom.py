@@ -40,6 +40,7 @@ class Classroom(object):
                   self.name + " roster.")
         else:
             print("Could not find student " + student_name + ".")
+            return False
 
     def add_assignment(self, assignment_name, assignment_score):
         """
@@ -49,7 +50,7 @@ class Classroom(object):
         """
         if assignment_name in self.assignments:
             print("There is already an assignment named " + assignment_name)
-            return
+            return False
         self.assignments[assignment_name] = assignment_score
         for student in self.roster:
             self.roster[student].scores[assignment_name] = -1
@@ -68,6 +69,7 @@ class Classroom(object):
             print("Graded " + assignment_name + " in " + self.name + ".")
         else:
             print("Could not find " + assignment_name + ".")
+            return False
 
     def grade_individual_assignment(self, student_name, assignment_name):
         """
@@ -84,8 +86,10 @@ class Classroom(object):
                       student_name + ".")
             else:
                 print("Could not find " + student_name + ".")
+                return False
         else:
             print("Could not find " + assignment_name + ".")
+            return False
 
     def remove_assignment(self, assignment_name):
         """
@@ -100,6 +104,7 @@ class Classroom(object):
                   self.name + " assignments.")
         else:
             print(assignment_name + " not found.")
+            return False
 
     def return_student_grade(self, student_name):
         """Returns student's grade in class."""
@@ -115,11 +120,12 @@ class Classroom(object):
                 else:
                     excused_assignments += 1
             print(student_name + " has a score of " +
-                  str(student_points / total_points) +
+                  str(student_points / total_points * 100) +
                   " with " + str(excused_assignments) + " excused assignments "
-                  " in " + self.name + ".")
+                  "in " + self.name + ".")
         else:
             print("Could not find " + student_name + ".")
+            return False
 
     def return_meet_times(self):
         """Returns meet times."""
@@ -138,10 +144,14 @@ class Classroom(object):
                   str(self.assignments[assignment]))
 
     def return_assignment_grades(self, assignment_name):
-        """Returns assignment grades for all students."""
+        """Returns single assignment grades for all students."""
         if assignment_name in self.assignments:
             for student in self.roster:
-                print(student + ": " +
-                      str(self.roster[student].scores[assignment_name]))
+                if self.roster[student].scores[assignment_name] == -1:
+                    print(student + ": not graded")
+                else:
+                    print(student + ": " +
+                          str(self.roster[student].scores[assignment_name]))
         else:
             print("Could not find " + assignment_name + ".")
+            return False
